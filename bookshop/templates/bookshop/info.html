@@ -1,0 +1,45 @@
+{% extends 'bookshop/base.html' %}
+	{% block content %}
+		<a href='/main' class='main'>На главную</a>
+		<h1>Информация</h1>
+		<div id="book_inf">
+			<div>
+				<p>Название: <i>{{book.name}}</i></p>
+				<p>Автор: <i>{{book.author}}</i></p>
+				<p>Количество: <i>{{book.number}}</i></p>
+				<p>Переплет: <i>{{book.cover}}</i></p>
+				<img src='{{book.img.url}}' class="book" width="180" height="250">
+			</div>
+			<div id="r">
+				<h2>Описание</h2>
+				<p>{{book.desc}}</p>
+			</div>
+		</div>
+		<div id='action'>
+			<div>
+			{% if user_list %}
+				<p>Уже заказали:</p>
+				{% for user in user_list %}
+					{{user.user}}
+				{% endfor %}
+			{% else %}
+				<p>Еще никто не заказывал эту книгу</p>
+			{% endif %}
+			</div>
+			{% if book.number %}
+			<form method="POST" id="edit">
+				{% csrf_token %}
+				<button type=Submit>Заказать</button>
+			</form>	
+			{% endif %}
+		</div>
+		<script>
+					var pos = 0;
+					while (true) {
+  						var foundPos = document.body.innerHTML.indexOf("bookshop/", pos);
+  						if (foundPos == -1) break;
+  						document.getElementById("book_inf").innerHTML= document.getElementById("book_inf").innerHTML.replace('bookshop/', '/');
+  						pos = foundPos + 1; // продолжить поиск со следующей
+					}		
+		</script>
+	{% endblock %}

@@ -1,0 +1,92 @@
+.auth-form{
+	text-align: center;
+	border: 1px solid black;
+	padding: 7px;
+	width: 200px;
+	display: flex;
+	flex-wrap: wrap;
+	margin: auto;
+}
+
+.auth-form button{
+	margin: auto;
+}
+h1{
+	text-align: center;
+}
+#books{
+	display: flex;
+	justify-content: space-around;
+	flex-wrap: wrap;
+	width: 900px;
+	margin: auto;
+}
+#book{
+	margin: 10px;
+	line-height: 2px;
+	display: flex;
+	flex-direction: column;
+}
+#book .button p{
+	width: 100px;
+	padding: 10px;
+}
+#menu{
+	margin: auto;
+	display: flex;
+	width: 300px;
+	justify-content: space-around;
+
+}
+.button{
+	text-decoration: none;
+	color: black;
+
+}
+.button p{
+	border: 1px solid black;
+	padding: 5px;
+	border-radius: 5px;
+}
+
+form p{
+	width: 300px;
+	display: flex;
+	justify-content: space-between;
+
+}
+a{
+	color: black;
+	text-decoration: none;
+}
+#book_inf{
+	width: 700px;
+	margin: auto;
+	display: flex;
+	justify-content: space-between;
+
+}
+#r{
+	margin-left: 20px;
+	text-align: justify;
+}
+.pagination{
+	margin-top: 20px;
+	display: flex;
+	justify-content: center;
+}
+.pagination a{
+	text-decoration: underline;
+}
+#action{
+	margin: auto;
+	margin-top: 20px;
+	display: flex;
+	width: 300px;
+	justify-content: space-between;
+}
+.main{
+	position: absolute;
+	text-decoration: underline;
+	color: blue;
+}

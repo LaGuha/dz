@@ -1,0 +1,43 @@
+{% extends 'bookshop/base.html' %}
+	{% block content %}
+		<h1>Список книг</h1>
+		{% if admin %}
+			<div id='menu'>
+				<a href='#' class='button'><p>Добавить книгу</p></a>
+				<a href='#' class='button'><p>Добавить пользователя</p></a>
+			</div>
+		{% endif %}
+		<div id='books'>
+		{% for book in books %}
+		<a href="{% url 'info' pk=book.pk %}">
+			<div id="book">
+				<p class="book">Название: <i>{{book.name}}</i></p>
+				<p class='book'>Автор: <i>{{book.author}}</i></p>
+				<img src='{{book.img.url}}' class="book" width="180" height="250">
+			</div>
+		</a>
+		{% endfor %}
+		</div>
+		<div class="pagination">
+    		<span class="step-links">
+        		{% if books.has_previous %}
+           			<a href="?page={{ books.previous_page_number }}">&larr;Назад</a>
+	       		{% endif %}
+			        <span class="current">
+       			    Страница {{ books.number }} из {{ books.paginator.num_pages }}.
+       			</span>
+        		{% if books.has_next %}
+   	        		<a href="?page={{ books.next_page_number }}">Вперед&rarr;</a>
+       			{% endif %}
+	    		</span>
+		</div>	
+		<script>
+					var pos = 0;
+					while (true) {
+  						var foundPos = document.body.innerHTML.indexOf("bookshop/", pos);
+  						if (foundPos == -1) break;
+  						document.getElementById("books").innerHTML= document.getElementById("books").innerHTML.replace('bookshop/', '/');
+  						pos = foundPos + 1; // продолжить поиск со следующей
+					}		
+		</script>
+	{% endblock %}
