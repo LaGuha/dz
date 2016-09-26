@@ -3,16 +3,18 @@
 		<h1>Список книг</h1>
 		{% if admin %}
 			<div id='menu'>
-				<a href='#' class='button'><p>Добавить книгу</p></a>
-				<a href='#' class='button'><p>Добавить пользователя</p></a>
+				<a href='/edit/' class='button'><p>Добавить книгу</p></a>
+				<!--<a href='#' class='button'><p>Добавить пользователя</p></a>-->
 			</div>
 		{% endif %}
 		<div id='books'>
 		{% for book in books %}
 		<a href="{% url 'info' pk=book.pk %}">
 			<div id="book">
-				<p class="book">Название: <i>{{book.name}}</i></p>
-				<p class='book'>Автор: <i>{{book.author}}</i></p>
+				<div class="desc">
+					<p class="book">Название: <i>{{book.name}}</i></p>
+					<p class='book'>Автор: <i>{{book.author}}</i></p>
+				</div>
 				<img src='{{book.img.url}}' class="book" width="180" height="250">
 			</div>
 		</a>

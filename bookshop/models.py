@@ -15,6 +15,7 @@ class Book(models.Model):
 
 	def __str__(self):
 		return self.name
+
 class Book_User(models.Model):
 	user=models.CharField(max_length=200)
 	book=models.IntegerField()

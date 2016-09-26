@@ -20,17 +20,23 @@
 			{% if user_list %}
 				<p>Уже заказали:</p>
 				{% for user in user_list %}
-					{{user.user}}
+					{{user.user}}<br>
 				{% endfor %}
 			{% else %}
 				<p>Еще никто не заказывал эту книгу</p>
 			{% endif %}
 			</div>
 			{% if book.number %}
-			<form method="POST" id="edit">
-				{% csrf_token %}
-				<button type=Submit>Заказать</button>
-			</form>	
+				{% if log_in %}
+					<form method="POST" id="edit">
+						{% csrf_token %}
+						<button type=Submit>Заказать</button>
+					</form>	
+				{% else %}
+					<a href='/'>Авторизируйтесь, чтобы заказать</a>
+				{% endif %}
+			{% else %}
+				<p>В наличии не осталось книг</p>
 			{% endif %}
 		</div>
 		<script>

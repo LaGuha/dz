@@ -23,6 +23,8 @@ def auth(request):
 					var = User.objects.get(username=username)
 					var.set_password(password)
 					var.save()
+					user = authenticate(username=username, password=password)
+					login(request,user)
 					return redirect('bookshop.views.main')
 				elif user is not None:			
 					if user.is_active:
@@ -56,26 +58,24 @@ def main(request):
 def info(request, pk):
 	book = get_object_or_404(Book, pk=pk)
 	user_list=Book_User.objects.filter(book=pk)
-
+	log_in=request.user.is_authenticated()
 	if request.method == "POST":
 		user=request.user.username
 		b_u=Book_User(user=user,book=pk)
 		b_u.save()
 		book.number=book.number-1
 		book.save()
-	return render(request, 'bookshop/info.html',{'book':book, 'user_list':user_list})
+	return render(request, 'bookshop/info.html',{'book':book, 'user_list':user_list,"log_in":log_in})
 
-def edit(request, pk):
-	book = get_object_or_404(Book, pk=pk)
+def edit(request):
+	a=0
 	if request.method == "POST":
-		form = BookForm(request.POST, instance=book)
+		form = BookForm(request.POST, request.FILES)
+		a=request.FILES
 		if form.is_valid():
 			book=form.save(commit=False)
-			value=request.FILES.get('img')
-			pic=Book(img=value)
-			pic=form.save(commit=False)
-			pic.save()
+			book.save()
 			return redirect('bookshop.views.main')
 	else:
-		form=BookForm(instance=book)
-	return render(request, 'bookshop/edit.html',{'form':form})
+		form=BookForm()
+	return render(request, 'bookshop/edit.html',{'form':form,'a':a})

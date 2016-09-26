@@ -1,26 +1,10 @@
 {% extends 'bookshop/base.html' %}
 	{% block content %}
-	<h1>Редактировать:</h1>
-		<form method="POST" id="edit">
+	<h1>Добавить:</h1>
+		<form method="POST" enctype="multipart/form-data">
 			{% csrf_token %}
 			{{form.as_p}}
 			<button type=Submit>Сохранить</button>
 		</form>	
-		<script>
-			var pos = 0;
-					while (true) {
-  						var foundPos = document.body.innerHTML.indexOf("Currently:", pos);
-  						if (foundPos == -1) break;
-  						document.getElementById("edit").innerHTML= document.getElementById("edit").innerHTML.replace('Currently', 
-  							'<span>Текущая');
-  						pos = foundPos + 1; // продолжить поиск со следующей
-					}
-					var pos = 0;
-					while (true) {
-  						var foundPos = document.body.innerHTML.indexOf("Change:", pos);
-  						if (foundPos == -1) break;
-  						document.getElementById("edit").innerHTML= document.getElementById("edit").innerHTML.replace('Change', 'Заменить');
-  						pos = foundPos + 1; // продолжить поиск со следующей
-					}				
-		</script>	
+		{{a}}
 	{% endblock %}

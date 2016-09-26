@@ -23,9 +23,12 @@ h1{
 }
 #book{
 	margin: 10px;
-	line-height: 2px;
 	display: flex;
 	flex-direction: column;
+}
+#book .desc{
+	width: 200px;
+	height: 100px;
 }
 #book .button p{
 	width: 100px;
@@ -84,6 +87,9 @@ a{
 	display: flex;
 	width: 300px;
 	justify-content: space-between;
+}
+#action div{
+	margin-right: 20px;
 }
 .main{
 	position: absolute;
