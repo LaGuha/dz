@@ -18,21 +18,24 @@ def auth(request):
 				password = request.POST['password']
 				user = authenticate(username=username, password=password)
 				if request.POST.get('reg'):
-					var=User(username=username)
-					var.save()
-					var = User.objects.get(username=username)
-					var.set_password(password)
-					var.save()
-					user = authenticate(username=username, password=password)
-					login(request,user)
-					return redirect('bookshop.views.main')
+					if User.objects.filter(username=username).exists:
+						error="Пользователь с таким логином уже существует"
+					else:
+						var=User(username=username)
+						var.save()
+						var = User.objects.get(username=username)
+						var.set_password(password)
+						var.save()
+						user = authenticate(username=username, password=password)
+						login(request,user)
+						return redirect('bookshop.views.main')
 				elif user is not None:			
 					if user.is_active:
 						login(request, user)
 						return redirect('bookshop.views.main')
 				else:
 					form=UserForm()
-					error="wrong"		
+					error="Неправильный логин или пароль"		
 		else:
 			form = UserForm()
 		return render(request, 'bookshop/auth.html',{'form': form, 'error':error})
@@ -60,18 +63,21 @@ def info(request, pk):
 	user_list=Book_User.objects.filter(book=pk)
 	log_in=request.user.is_authenticated()
 	if request.method == "POST":
-		user=request.user.username
-		b_u=Book_User(user=user,book=pk)
-		b_u.save()
+		username=request.user.username
+		if Book_User.objects.filter(user=username, book=pk).exists():
+			b_u=Book_User.objects.get(user=username, book=pk)
+			b_u.number+=1
+			b_u.save()
+		else:
+			b_u=Book_User(user=username,book=pk, number=1)
+			b_u.save()
 		book.number=book.number-1
 		book.save()
 	return render(request, 'bookshop/info.html',{'book':book, 'user_list':user_list,"log_in":log_in})
 
 def edit(request):
-	a=0
 	if request.method == "POST":
 		form = BookForm(request.POST, request.FILES)
-		a=request.FILES
 		if form.is_valid():
 			book=form.save(commit=False)
 			book.save()

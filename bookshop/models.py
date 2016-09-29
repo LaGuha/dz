@@ -19,3 +19,4 @@ class Book(models.Model):
 class Book_User(models.Model):
 	user=models.CharField(max_length=200)
 	book=models.IntegerField()
+	number=models.IntegerField()
