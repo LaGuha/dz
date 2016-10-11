@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from .models import Book, Book_User
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-import requests
+
 
 
 # Create your views here.
