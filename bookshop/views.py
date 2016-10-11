@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from .models import Book, Book_User
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+import requests
 
 
 # Create your views here.
@@ -84,4 +85,4 @@ def edit(request):
 			return redirect('bookshop.views.main')
 	else:
 		form=BookForm()
-	return render(request, 'bookshop/edit.html',{'form':form,'a':a})
+	return render(request, 'bookshop/edit.html',{'form':form})

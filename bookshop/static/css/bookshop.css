@@ -66,7 +66,7 @@ a{
 	width: 700px;
 	margin: auto;
 	display: flex;
-	justify-content: space-between;
+	justify-content: space-around;
 
 }
 #r{
@@ -95,4 +95,10 @@ a{
 	position: absolute;
 	text-decoration: underline;
 	color: blue;
+}
+.error-number{
+	color: red;
+}
+.error{
+	width: 400px;
 }
