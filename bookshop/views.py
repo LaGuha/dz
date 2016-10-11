@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from .models import Book, Book_User
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-
+	
 
 
 # Create your views here.
@@ -19,7 +19,7 @@ def auth(request):
 				password = request.POST['password']
 				user = authenticate(username=username, password=password)
 				if request.POST.get('reg'):
-					if User.objects.filter(username=username).exists:
+					if User.objects.filter(username=username).exists():
 						error="Пользователь с таким логином уже существует"
 					else:
 						var=User(username=username)
