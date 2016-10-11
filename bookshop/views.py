@@ -82,7 +82,7 @@ def edit(request):
 		if form.is_valid():
 			book=form.save(commit=False)
 			book.save()
-			return redirect('bookshop.views.main')
+			return redirect('bookshop.views.info',pk=book.pk)
 	else:
 		form=BookForm()
 	return render(request, 'bookshop/edit.html',{'form':form})
