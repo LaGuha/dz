@@ -10,7 +10,7 @@ class Book(models.Model):
 	author=models.CharField(max_length=100)
 	cover=models.CharField(max_length=7, choices=(("Мягкий","Мягкий"), ("Жесткий","Жесткий")))
 	number=models.IntegerField()
-	img=models.ImageField(upload_to="bookshop/static/")
+	img=models.ImageField(upload_to="localhost/bookshop/static/")
 	desc=models.TextField()
 
 	def __str__(self):
