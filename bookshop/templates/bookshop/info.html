@@ -20,7 +20,7 @@
 			{% if user_list %}
 				<p>Уже заказали:</p>
 				{% for user in user_list %}
-					{{user.user}} x {{user.number}}<br>
+					{{user.user}} {% if user.number > 1 %} x {{user.number}} {% endif %}<br>
 				{% endfor %}
 			{% else %}
 				<p>Еще никто не заказывал эту книгу</p>
