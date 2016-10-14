@@ -3,7 +3,7 @@
 		<h1>Список книг</h1>
 		{% if admin %}
 			<div id='menu'>
-				<a href='/edit/' class='button'><p>Добавить книгу</p></a>
+				<a href='#edit' class='button'><p>Добавить книгу</p></a>
 				<!--<a href='#' class='button'><p>Добавить пользователя</p></a>-->
 			</div>
 		{% endif %}
@@ -33,6 +33,21 @@
        			{% endif %}
 	    		</span>
 		</div>	
+		
+
+		<div id="edit" class="modalDialog">
+			<div>
+				<a href="#close" title="Закрыть" class="close">X</a>
+				<h1>Добавить:</h1>
+					<form method="POST" enctype="multipart/form-data">
+						{% csrf_token %}
+						{{form.as_p}}
+						<button type=button onclick="validate(this.form)">Сохранить</button>
+					</form>	
+			</div>
+		</div>
+
+
 		<script>
 					var pos = 0;
 					while (true) {
@@ -40,6 +55,66 @@
   						if (foundPos == -1) break;
   						document.getElementById("books").innerHTML= document.getElementById("books").innerHTML.replace('bookshop/', '/');
   						pos = foundPos + 1; // продолжить поиск со следующей
-					}		
+					}	
+
+
+	function showError(container, errornumber) {
+      container.className = 'error';
+      var msgElem = document.createElement('span');
+      msgElem.className = "error-number";
+      msgElem.innerHTML = errornumber;
+      container.appendChild(msgElem);
+    }
+
+    function resetError(container) {
+      container.className = '';
+      if (container.lastChild.className == "error-number") {
+        container.removeChild(container.lastChild);
+      }
+    }
+
+    function validate(form) {
+      var elems = form.elements;
+      err=0;
+      resetError(elems.name.parentNode);
+      if (!elems.name.value) {
+        showError(elems.name.parentNode, ' Укажите название.');
+        err=1;
+      }
+
+      resetError(elems.author.parentNode);
+      if (!elems.author.value) {
+        showError(elems.author.parentNode, ' Укажите автора.');
+        err=1;
+      }
+
+      resetError(elems.cover.parentNode);
+      if (!elems.cover.value) {
+        showError(elems.cover.parentNode, ' Укажите переплет.');
+        err=1;
+      }
+
+      resetError(elems.number.parentNode);
+      if (!elems.number.value) {
+        showError(elems.number.parentNode, ' Укажите количество.');
+        err=1;
+      }
+
+      resetError(elems.img.parentNode);
+      if (!elems.img.value) {
+        showError(elems.img.parentNode, ' Выберите картинку.');
+        err=1;
+      }
+
+      resetError(elems.desc.parentNode);
+      if (!elems.desc.value) {
+        showError(elems.desc.parentNode, ' Отсутствует описание.');
+        err=1;
+      }
+      if (!err){
+      	form.submit()
+      }
+
+    }	
 		</script>
 	{% endblock %}

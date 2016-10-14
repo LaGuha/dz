@@ -58,7 +58,17 @@ def main(request):
 	except EmptyPage:
 		# If page is out of range (e.g. 9999), deliver last page of results.
 		books = paginator.page(paginator.num_pages)
-	return render(request, 'bookshop/main.html',{"books":books,'admin':admin})
+
+	if request.method == "POST":
+		form = BookForm(request.POST, request.FILES)
+		if form.is_valid():
+			book=form.save(commit=False)
+			book.save()
+			return redirect('bookshop.views.info',pk=book.pk)
+	else:
+		form=BookForm()
+
+	return render(request, 'bookshop/main.html',{"books":books,'admin':admin, 'form':form})
 def info(request, pk):
 	book = get_object_or_404(Book, pk=pk)
 	user_list=Book_User.objects.filter(book=pk)
