@@ -6,7 +6,7 @@
 			<div>
 				<p>Название: <i>{{book.name}}</i></p>
 				<p>Автор: <i>{{book.author}}</i></p>
-				<p>Количество: <i>{{book.number}}</i></p>
+				<p>Количество: <i class=num>{{book.number}}</i></p>
 				<p>Переплет: <i>{{book.cover}}</i></p>
 				<img src='{{book.img.url}}' class="book" width="180" height="250">
 			</div>
@@ -16,12 +16,14 @@
 			</div>
 		</div>
 		<div id='action'>
-			<div>
+			<div id="users">
 			{% if user_list %}
-				<p>Уже заказали:</p>
-				{% for user in user_list %}
-					{{user.user}} {% if user.number > 1 %} x {{user.number}} {% endif %}<br>
-				{% endfor %}
+				<div class="alrdy">
+					<p>Уже заказали:</p>
+					{% for user in user_list %}
+						<span class="us">{{user.user}} {% if user.number > 1 %} x {{user.number}} {% endif %}</span><br>
+					{% endfor %}
+				</div>
 			{% else %}
 				<p>Еще никто не заказывал эту книгу</p>
 			{% endif %}
@@ -30,7 +32,7 @@
 				{% if log_in %}
 					<form method="POST" id="edit">
 						{% csrf_token %}
-						<button type=Submit>Заказать</button>
+						<button type='button'>Заказать</button>
 					</form>	
 				{% else %}
 					<a href='/'>Авторизируйтесь, чтобы заказать</a>
@@ -39,6 +41,7 @@
 				<p>В наличии не осталось книг</p>
 			{% endif %}
 		</div>
+			
 		<script>
 					var pos = 0;
 					while (true) {
@@ -46,6 +49,53 @@
   						if (foundPos == -1) break;
   						document.getElementById("book_inf").innerHTML= document.getElementById("book_inf").innerHTML.replace('bookshop/', '/');
   						pos = foundPos + 1; // продолжить поиск со следующей
-					}		
+					}
+					var csrftoken = $.cookie('csrftoken');
+
+					function csrfSafeMethod(method) {
+					    // these HTTP methods do not require CSRF protection
+					    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+					}
+
+					$.ajaxSetup({
+					    beforeSend: function(xhr, settings) {
+					        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+					            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+					        }
+					    }
+					});
+					$(document).ready(function(){
+						$('button').click(function(){
+							$.ajax({
+								url: "",
+								type: "POST",
+								success: function(data){
+									//alert(data.us_l.user)
+									$('.num').text(data.num)
+									//alert($('#users').text())
+									var str2=$('#users').text()
+									var str1=str2.substring(9,12)
+									var str3=$('.alrdy').text()
+									if ( ~str1.indexOf("Еще") ){
+										$("#users").text("")
+										$("#users").append('<div class="alrdy"><p>Уже заказали:</p><span class=us>'+data.us_l.user+'</span><br></div>')
+									}else if ( ~str3.indexOf(data.us_l.user) ){
+										var text=$('.alrdy').text()
+										//$('.alrdy').text(text+data.us_l.user+' x ' + data.us_l.number)
+										$('.us').each(function(){
+											if (~$( this ).text().indexOf(data.us_l.user)){
+												$( this ).text(data.us_l.user+' x ' + data.us_l.number)
+											}
+										})
+										//$('.alrdy:contains('+data.us_l.user+')').html(data.us_l.user+' x ' + data.us_l.number+'<br>')
+									}else{
+										alert('2')
+										$('.alrdy').append('<span class="us">'+data.us_l.user+'</span><br></div>')
+									}
+									//$('.user').text(data.us_l.user)
+							  	}
+							});						
+						})	
+					})
 		</script>
 	{% endblock %}

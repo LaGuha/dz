@@ -4,7 +4,9 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from .models import Book, Book_User
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-	
+import json
+from django.http import HttpResponse
+from django.core import serializers
 
 
 # Create your views here.
@@ -84,7 +86,16 @@ def info(request, pk):
 			b_u.save()
 		book.number=book.number-1
 		book.save()
-	return render(request, 'bookshop/info.html',{'book':book, 'user_list':user_list,"log_in":log_in})
+		data={}
+		data['num']=book.number
+		us_l={}
+		for user in user_list:
+			us_l['user']=user.user
+			us_l['number']=user.number
+		data['us_l']=us_l
+		return HttpResponse(json.dumps(data), content_type="application/json")
+	else:
+		return render(request, 'bookshop/info.html',{'book':book, 'user_list':user_list,"log_in":log_in})
 
 def edit(request):
 	if request.method == "POST":
