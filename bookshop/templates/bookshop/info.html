@@ -29,17 +29,19 @@
 			{% endif %}
 			</div>
 			{% if book.number > 0 %}
-				{% if log_in %}
-					<form method="POST" id="edit">
-						{% csrf_token %}
-						<button type='button'>Заказать</button>
-					</form>	
-				{% else %}
-					<a href='/'>Авторизируйтесь, чтобы заказать</a>
-				{% endif %}
-			{% else %}
-				<p>В наличии не осталось книг</p>
-			{% endif %}
+				<div id='count'>
+					{% if log_in %}
+						<form method="POST" id="edit">
+							{% csrf_token %}
+							<button type='button'>Заказать</button>
+						</form>	
+					{% else %}
+						<a href='/'>Авторизируйтесь, чтобы заказать</a>
+					{% endif %}
+					{% else %}
+						<p>В наличии не осталось книг</p>
+					{% endif %}
+				</div>
 		</div>
 			
 		<script>
@@ -76,7 +78,7 @@
 									var str2=$('#users').text()
 									var str1=str2.substring(9,12)
 									var str3=$('.alrdy').text()
-									if ( ~str1.indexOf("Еще") ){
+									if ( ~str2.indexOf("Еще") ){
 										$("#users").text("")
 										$("#users").append('<div class="alrdy"><p>Уже заказали:</p><span class=us>'+data.us_l.user+'</span><br></div>')
 									}else if ( ~str3.indexOf(data.us_l.user) ){
@@ -89,8 +91,11 @@
 										})
 										//$('.alrdy:contains('+data.us_l.user+')').html(data.us_l.user+' x ' + data.us_l.number+'<br>')
 									}else{
-										alert('2')
+										//alert('2')
 										$('.alrdy').append('<span class="us">'+data.us_l.user+'</span><br></div>')
+									}
+									if (!data.num){
+										$('#count').html('<p>В наличии не осталось книг</p>')
 									}
 									//$('.user').text(data.us_l.user)
 							  	}

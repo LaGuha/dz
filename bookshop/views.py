@@ -77,15 +77,16 @@ def info(request, pk):
 	log_in=request.user.is_authenticated()
 	if request.method == "POST":
 		username=request.user.username
-		if Book_User.objects.filter(user=username, book=pk).exists():
-			b_u=Book_User.objects.get(user=username, book=pk)
-			b_u.number+=1
-			b_u.save()
-		else:
-			b_u=Book_User(user=username,book=pk, number=1)
-			b_u.save()
-		book.number=book.number-1
-		book.save()
+		if book.number > 0:
+			if Book_User.objects.filter(user=username, book=pk).exists():
+				b_u=Book_User.objects.get(user=username, book=pk)
+				b_u.number+=1
+				b_u.save()
+			else:
+				b_u=Book_User(user=username,book=pk, number=1)
+				b_u.save()
+			book.number=book.number-1
+			book.save()
 		data={}
 		data['num']=book.number
 		us_l={}
