@@ -86,7 +86,7 @@ a{
 	margin: auto;
 	margin-top: 20px;
 	display: flex;
-	width: 300px;
+	width: 400px;
 	justify-content: space-between;
 }
 #action div{
@@ -157,3 +157,9 @@ a{
 }
 
 .close:hover { background: #00d9ff; }
+.alrdy{
+	width:200px;
+}
+.next{
+	margin-left:47%;
+}

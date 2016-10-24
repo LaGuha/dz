@@ -20,7 +20,7 @@
 		</a>
 		{% endfor %}
 		</div>
-		<div class="pagination">
+	<!--	<div class="pagination">
     		<span class="step-links">
         		{% if books.has_previous %}
            			<a href="?page={{ books.previous_page_number }}">&larr;Назад</a>
@@ -32,7 +32,8 @@
    	        		<a href="?page={{ books.next_page_number }}">Вперед&rarr;</a>
        			{% endif %}
 	    		</span>
-		</div>	
+		</div>-->
+    <button class='next'>Показать еще</button>	
 		
 
 		<div id="edit" class="modalDialog">
@@ -116,5 +117,55 @@
       }
 
     }	
+    var csrftoken = $.cookie('csrftoken');
+
+          function csrfSafeMethod(method) {
+              // these HTTP methods do not require CSRF protection
+              return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+          }
+
+          $.ajaxSetup({
+              beforeSend: function(xhr, settings) {
+                  if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                      xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                  }
+              }
+          });
+          i=1;
+          $(document).ready(function(){
+            $('.next').click(function(){
+              i+=1
+              $.ajax({
+                url: "",
+                type: "GET",
+                data:{
+                  page:i,
+                  ajax:'1'
+                },
+                success: function(data){
+                  if (i==data.max){
+                    $('.next').css("display","none")
+                  }
+                  $('#books').append('<a href="../info/'+data.t0.pk+'"><div id="book"><div class="desc"><p class="book">Название: '
+                                                      +data.t0.name+'</p><p class="book">Автор: '+
+                                                      data.t0.author+'</p></div><img src="'+
+                                                      data.t0.img+'" class="book" width="180" height="250"></div></a>')
+                  $('#books').append('<a href="../info/'+data.t1.pk+'"><div id="book"><div class="desc"><p class="book">Название: '
+                                                      +data.t1.name+'</p><p class="book">Автор: '+
+                                                      data.t1.author+'</p></div><img src="'+
+                                                      data.t1.img+'" class="book" width="180" height="250"></div></a>')
+                  $('#books').append('<a href="../info/'+data.t2.pk+'""><div id="book"><div class="desc"><p class="book">Название: '
+                                                      +data.t2.name+'</p><p class="book">Автор: '+
+                                                      data.t2.author+'</p></div><img src="'+
+                                                      data.t2.img+'" class="book" width="180" height="250"></div></a>')
+                  $('#books').append('<a href="../info/'+data.t3.pk+'""><div id="book"><div class="desc"><p class="book">Название: '
+                                                      +data.t3.name+'</p><p class="book">Автор: '+
+                                                      data.t3.author+'</p></div><img src="'+
+                                                      data.t3.img+'" class="book" width="180" height="250"></div></a>')
+
+                }
+              })
+            })
+          })
 		</script>
 	{% endblock %}

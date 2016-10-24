@@ -72,9 +72,9 @@
 								url: "",
 								type: "POST",
 								success: function(data){
-									//alert(data.us_l.user)
+									
 									$('.num').text(data.num)
-									//alert($('#users').text())
+									
 									var str2=$('#users').text()
 									var str1=str2.substring(9,12)
 									var str3=$('.alrdy').text()
@@ -83,21 +83,23 @@
 										$("#users").append('<div class="alrdy"><p>Уже заказали:</p><span class=us>'+data.us_l.user+'</span><br></div>')
 									}else if ( ~str3.indexOf(data.us_l.user) ){
 										var text=$('.alrdy').text()
-										//$('.alrdy').text(text+data.us_l.user+' x ' + data.us_l.number)
+										
 										$('.us').each(function(){
+											
 											if (~$( this ).text().indexOf(data.us_l.user)){
+												
 												$( this ).text(data.us_l.user+' x ' + data.us_l.number)
 											}
 										})
-										//$('.alrdy:contains('+data.us_l.user+')').html(data.us_l.user+' x ' + data.us_l.number+'<br>')
+										
 									}else{
-										//alert('2')
+										
 										$('.alrdy').append('<span class="us">'+data.us_l.user+'</span><br></div>')
 									}
 									if (!data.num){
 										$('#count').html('<p>В наличии не осталось книг</p>')
 									}
-									//$('.user').text(data.us_l.user)
+									
 							  	}
 							});						
 						})	

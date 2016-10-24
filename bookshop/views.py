@@ -7,6 +7,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import json
 from django.http import HttpResponse
 from django.core import serializers
+from django.core import serializers
 
 
 # Create your views here.
@@ -69,6 +70,24 @@ def main(request):
 			return redirect('bookshop.views.info',pk=book.pk)
 	else:
 		form=BookForm()
+	
+	if request.GET.get('ajax'):
+		data={}
+		i=0
+		for book in books:
+			text='t'
+			text=text+str(i)
+			data[text]={}
+			inf={}
+			inf['pk']=book.pk
+			inf['name']=book.name
+			inf['author']=book.author
+			#img=serializers.serialize('json',)
+			inf['img']=book.img.url[8:]
+			data[text]=inf
+			i+=1
+		data['max']=paginator.num_pages			
+		return HttpResponse(json.dumps(data), content_type="application/json")
 
 	return render(request, 'bookshop/main.html',{"books":books,'admin':admin, 'form':form})
 def info(request, pk):
@@ -91,8 +110,9 @@ def info(request, pk):
 		data['num']=book.number
 		us_l={}
 		for user in user_list:
-			us_l['user']=user.user
-			us_l['number']=user.number
+			if user.user==username:
+				us_l['user']=user.user
+				us_l['number']=user.number
 		data['us_l']=us_l
 		return HttpResponse(json.dumps(data), content_type="application/json")
 	else:
