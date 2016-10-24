@@ -146,23 +146,13 @@
                   if (i==data.max){
                     $('.next').css("display","none")
                   }
-                  $('#books').append('<a href="../info/'+data.t0.pk+'"><div id="book"><div class="desc"><p class="book">Название: '
-                                                      +data.t0.name+'</p><p class="book">Автор: '+
-                                                      data.t0.author+'</p></div><img src="'+
-                                                      data.t0.img+'" class="book" width="180" height="250"></div></a>')
-                  $('#books').append('<a href="../info/'+data.t1.pk+'"><div id="book"><div class="desc"><p class="book">Название: '
-                                                      +data.t1.name+'</p><p class="book">Автор: '+
-                                                      data.t1.author+'</p></div><img src="'+
-                                                      data.t1.img+'" class="book" width="180" height="250"></div></a>')
-                  $('#books').append('<a href="../info/'+data.t2.pk+'""><div id="book"><div class="desc"><p class="book">Название: '
-                                                      +data.t2.name+'</p><p class="book">Автор: '+
-                                                      data.t2.author+'</p></div><img src="'+
-                                                      data.t2.img+'" class="book" width="180" height="250"></div></a>')
-                  $('#books').append('<a href="../info/'+data.t3.pk+'""><div id="book"><div class="desc"><p class="book">Название: '
-                                                      +data.t3.name+'</p><p class="book">Автор: '+
-                                                      data.t3.author+'</p></div><img src="'+
-                                                      data.t3.img+'" class="book" width="180" height="250"></div></a>')
-
+                  data.list.forEach(display)
+                  function display(book){
+                    $('#books').append('<a href="../info/'+book.pk+'"><div id="book"><div class="desc"><p class="book">Название: '
+                                                      +book.name+'</p><p class="book">Автор: '+
+                                                      book.author+'</p></div><img src="'+
+                                                      book.img+'" class="book" width="180" height="250"></div></a>')
+                  }
                 }
               })
             })
