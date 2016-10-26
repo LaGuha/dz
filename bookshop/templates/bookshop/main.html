@@ -131,10 +131,15 @@
                   }
               }
           });
-          i=1;
-          $(document).ready(function(){
-            $('.next').click(function(){
+          i=2;
+          block=true
+          //$(document).ready(function(){
+            //$('.next').click(function(){
+          $(window).scroll(function () {
+            if($(window).height() + $(window).scrollTop() >= $(document).height() && block) {
+              block = false
               i+=1
+
               $.ajax({
                 url: "",
                 type: "GET",
@@ -143,19 +148,21 @@
                   ajax:'1'
                 },
                 success: function(data){
-                  if (i==data.max){
-                    $('.next').css("display","none")
-                  }
                   data.list.forEach(display)
                   function display(book){
                     $('#books').append('<a href="../info/'+book.pk+'"><div id="book"><div class="desc"><p class="book">Название: '
                                                       +book.name+'</p><p class="book">Автор: '+
                                                       book.author+'</p></div><img src="'+
                                                       book.img+'" class="book" width="180" height="250"></div></a>')
+                    block=true
+                    if (i==data.max){
+                    $('.next').css("display","none")
+                    block = false
+                  }
                   }
                 }
               })
-            })
+            }
           })
 		</script>
 	{% endblock %}

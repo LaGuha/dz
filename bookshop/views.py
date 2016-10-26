@@ -57,6 +57,7 @@ def main(request):
         books = paginator.page(page)
     except PageNotAnInteger:
         # If page is not an integer, deliver first page.
+        paginator = Paginator(book_list, 8)
         books = paginator.page(1)
     except EmptyPage:
         # If page is out of range (e.g. 9999), deliver last page of results.
